@@ -2,30 +2,21 @@
 
 const express = require('express')
 const router = express.Router()
+const morgan = require('morgan') // logging middleware:
+const bodyParser = require('body-parser') // body parsing:
 
-// logging middleware:
-const morgan = require('morgan')
-// body parsing:
-const bodyParser = require('body-parser')
-// initializing app: 
-const app = express();
+const app = express(); // initializing app
 
-// serving static files & logging:
-app.use(express.static(__dirname + "./public")); //serving up static files (e.g. css files)
 app.use(morgan('dev'))
-
+app.use(express.static(__dirname + "./public")); //serving up static files (e.g. css files)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const http = require('http')
 
-// we need to get the layout function - 'views' has index.js which exports all the functions in views:
-const layout = require('./views/layout')
+const layout = require('./views/layout') // getting layout function
 
-app.get('/', (req, res, next) => {
-    
+app.get('/', (req, res, next) => {   
     res.send(layout(''))
 })
 
-
-app.listen(3000, () => console.log('app listening on port 3000'))
+module.exports = app;
 
